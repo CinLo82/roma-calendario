@@ -11,6 +11,8 @@ const navAnterior = document.getElementById('semana-anterior');
 const navSiguiente = document.getElementById('semana-siguiente');
 const rangoSemana = document.getElementById('rango-semana');
 
+
+
 let offsetSemana = 0; 
 
 const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
@@ -21,6 +23,7 @@ const horarios = [
 
 let turnos = JSON.parse(localStorage.getItem('turnos')) || {};
 let celdaSeleccionada = null;
+
 
 // Detecta si es pantalla chica
 function esPantallaChica() {
@@ -102,7 +105,19 @@ function renderCalendario() {
             if (bloquear) {
                 tabla += `<td class="no-disponible"></td>`;
             } else {
-                tabla += `<td class="turno" data-key="${key}">${turno}</td>`;
+                let tipoClase = '';
+                let nombreMostrar = '';
+                if (turno) {
+                    const partes = turno.split('|');
+                    if (partes.length === 2) {
+                        tipoClase = partes[0];
+                        nombreMostrar = partes[1];
+                    } else {
+                        nombreMostrar = turno;
+                    }
+                }
+                const ocupado = turno ? 'ocupado' : '';
+                tabla += `<td class="turno ${ocupado} ${tipoClase}" data-key="${key}">${nombreMostrar}</td>`;
             }
         });
         tabla += '</tr>';
@@ -119,7 +134,19 @@ function renderCalendario() {
             const diaNumero = fechaObj.getDate();
             infoTurno.textContent = `${diaNumero} - ${horario}`;
             fechaInput.value = fecha;
-            turnoInput.value = turnos[celdaSeleccionada] || '';
+            if (turnos[celdaSeleccionada]) {
+                const partes = turnos[celdaSeleccionada].split('|');
+                if (partes.length === 2) {
+                    document.getElementById('tipo-turno').value = partes[0];
+                    turnoInput.value = partes[1];
+                } else {
+                    document.getElementById('tipo-turno').value = '';
+                    turnoInput.value = turnos[celdaSeleccionada];
+                }
+            } else {
+                document.getElementById('tipo-turno').value = '';
+                turnoInput.value = '';
+            }
             fechaInput.disabled = true;
             modal.classList.add('activo'); // Mostrar modal
             form.style.display = 'flex';
@@ -166,7 +193,8 @@ resetBtn.onclick = () => {
 form.onsubmit = e => {
     e.preventDefault();
     if (celdaSeleccionada) {
-        turnos[celdaSeleccionada] = turnoInput.value;
+        const tipo = document.getElementById('tipo-turno').value;
+        turnos[celdaSeleccionada] = tipo + '|' + turnoInput.value;
         localStorage.setItem('turnos', JSON.stringify(turnos));
         form.style.display = 'none';
         modal.classList.remove('activo'); // Oculta el modal al guardar

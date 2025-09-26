@@ -39,7 +39,7 @@ body {
   background: var(--primary-green);
 }
 
-img {
+#logo {
     width: 80px;
 }
 
@@ -48,6 +48,7 @@ h1 {
     text-align: center;
     margin-top: 24px;
     letter-spacing: 2px;
+  
 }
 
 #nav-semana {
@@ -110,7 +111,7 @@ td.turno {
     background: var(--primary-beige);
     color: var(--secondary-gray);
     font-weight: 500;
-    border: 2px solid transparent;
+    border: 2px solid #d0d0d0;
 }
 
 td.turno:hover {
@@ -124,6 +125,15 @@ td.no-disponible {
     cursor: not-allowed;
     pointer-events: none;
     border: 1px solid #d0d0d0;
+}
+
+td.turno.ocupado.masaje {
+    background: #a3c6f1; /* Azul claro */
+    color: #fff;
+}
+td.turno.ocupado.reiki {
+    background: #d7c9e3; /* Violeta claro */
+    color: #4b4e5a;
 }
 
 /* Modal para el formulario de turno */
@@ -194,6 +204,32 @@ td.no-disponible {
 #form-turno button#cancelar:hover {
     background: var(--primary-orange);
     color: #fff;
+}
+
+#form-turno label[for="tipo-turno"] {
+    margin-top: 8px;
+    margin-bottom: 2px;
+    color: var(--secondary-gray);
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+#form-turno select#tipo-turno {
+    background: var(--primary-beige-light);
+    border: 1px solid var(--secondary-gray);
+    border-radius: 6px;
+    padding: 8px;
+    color: var(--secondary-gray);
+    font-size: 1rem;
+    margin-bottom: 8px;
+    transition: border-color 0.2s;
+}
+
+#form-turno select#tipo-turno:focus {
+    border-color: var(--primary-orange);
+    outline: none;
+    background: #fffbe7;
 }
 
 tr.separador td {
@@ -287,7 +323,7 @@ tr.separador td {
   th, td {
     min-width: 22px;
     font-size: 0.68rem;
-    height: 24px;
+    height: 32px;
     padding: 1px 0;
   }
 
