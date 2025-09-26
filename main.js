@@ -7,11 +7,11 @@ const modal = document.getElementById('modal-turno');
 const infoTurno = document.getElementById('info-turno');
 const eliminarBtn = document.getElementById('eliminar-turno');
 const resetBtn = document.getElementById('reset-semana');
-
-let offsetSemana = 0; // 0 = semana actual, -1 = anterior, +1 = siguiente
 const navAnterior = document.getElementById('semana-anterior');
 const navSiguiente = document.getElementById('semana-siguiente');
 const rangoSemana = document.getElementById('rango-semana');
+
+let offsetSemana = 0; 
 
 const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
 const horarios = [
@@ -22,18 +22,31 @@ const horarios = [
 let turnos = JSON.parse(localStorage.getItem('turnos')) || {};
 let celdaSeleccionada = null;
 
+// Detecta si es pantalla chica
+function esPantallaChica() {
+    return window.innerWidth <= 700;
+}
+
 // Calcula el lunes de la semana actual
 function getLunesActual(offset = 0) {
     const hoy = new Date();
     const dia = hoy.getDay();
+    // 0 (domingo) debe ser -6, 1 (lunes) debe ser 0, etc.
     const diff = hoy.getDate() - dia + (dia === 0 ? -6 : 1) + offset * 7;
-    return new Date(hoy.setDate(diff));
+    const lunes = new Date(hoy);
+    lunes.setDate(diff);
+    return new Date(lunes.getFullYear(), lunes.getMonth(), lunes.getDate());
 }
 
 function formatoFecha(fecha) {
     return fecha.toISOString().split('T')[0];
 }
 
+function mostrarRangoSemana(lunes) {
+    const viernes = new Date(lunes);
+    viernes.setDate(lunes.getDate() + 4);
+    rangoSemana.textContent = `${lunes.getDate()}/${lunes.getMonth()+1} - ${viernes.getDate()}/${viernes.getMonth()+1}`;
+}
 
 function renderCalendario() {
     calendarioDiv.innerHTML = '';
@@ -43,54 +56,56 @@ function renderCalendario() {
     for (let i = 0; i < 5; i++) {
         let dia = new Date(lunes);
         dia.setDate(lunes.getDate() + i);
-        diasSemana.push(dia);
+        diasSemana.push(new Date(dia)); // Asegura copia real
     }
-
     let tabla = '<table><thead><tr><th>Horario</th>';
     diasSemana.forEach(dia => {
-        tabla += `<th>${dias[dia.getDay() - 1]}<br>${dia.getDate()}</th>`;
+        const nombreDia = dias[dia.getDay() - 1];
+        const nombreMostrar = esPantallaChica() ? nombreDia.slice(0,3).toUpperCase() : nombreDia;
+        tabla += `<th>${nombreMostrar}<br>${dia.getDate()}</th>`;
     });
     tabla += '</tr></thead><tbody>';
+
     horarios.forEach((horario, idx) => {
         if (horario === '14:00-15:00') {
-        tabla += `<tr class="separador"><td colspan="6">TARDE</td></tr>`;
+            tabla += `<tr class="separador"><td colspan="6">TARDE</td></tr>`;
         }
-    tabla += `<tr><td>${horario}</td>`;
-    diasSemana.forEach(dia => {
-        const fecha = formatoFecha(dia);
-        const key = `${fecha}_${horario}`;
-        const turno = turnos[key] || '';
-        const esManiana = idx < 4;
-        const esJueves = dia.getDay() === 4; // 4 = jueves
+        tabla += `<tr><td>${horario}</td>`;
+        diasSemana.forEach(dia => {
+            const fecha = formatoFecha(dia);
+            const key = `${fecha}_${horario}`;
+            const turno = turnos[key] || '';
+            const esManiana = idx < 4;
+            const esJueves = dia.getDay() === 4; // 4 = jueves
 
-        // Bloqueos personalizados
-        const diaSemana = dia.getDay(); // 1=Lunes, 2=Martes, ..., 5=Viernes
+            // Bloqueos personalizados
+            const diaSemana = dia.getDay(); // 1=Lunes, 2=Martes, ..., 5=Viernes
 
-        let bloquear = false;
-        // Lunes (1), Miércoles (3), Viernes (5): 14-15 y 15-16
-        if ((diaSemana === 1 || diaSemana === 3 || diaSemana === 5) && (horario === '14:00-15:00' || horario === '15:00-16:00')) {
-        bloquear = true;
-        }
-        // Martes (2): 19-20
-        if (diaSemana === 2 && horario === '19:00-20:00') {
-        bloquear = true;
-        }
-        // Jueves (4): 18-19 y 19-20
-        if (diaSemana === 4 && (horario === '18:00-19:00' || horario === '19:00-20:00')) {
-        bloquear = true;
-        }
-        // Mañana que no sea jueves (ya estaba)
-        if (esManiana && !esJueves) {
-        bloquear = true;
-        }
+            let bloquear = false;
+            // Lunes (1), Miércoles (3), Viernes (5): 14-15 y 15-16
+            if ((diaSemana === 1 || diaSemana === 3 || diaSemana === 5) && (horario === '14:00-15:00' || horario === '15:00-16:00')) {
+                bloquear = true;
+            }
+            // Martes (2): 19-20
+            if (diaSemana === 2 && horario === '19:00-20:00') {
+                bloquear = true;
+            }
+            // Jueves (4): 18-19 y 19-20
+            if (diaSemana === 4 && (horario === '18:00-19:00' || horario === '19:00-20:00')) {
+                bloquear = true;
+            }
+            // Mañana que no sea jueves (ya estaba)
+            if (esManiana && !esJueves) {
+                bloquear = true;
+            }
 
-        if (bloquear) {
-        tabla += `<td class="no-disponible"></td>`;
-        } else {
-        tabla += `<td class="turno" data-key="${key}">${turno}</td>`;
-        }
+            if (bloquear) {
+                tabla += `<td class="no-disponible"></td>`;
+            } else {
+                tabla += `<td class="turno" data-key="${key}">${turno}</td>`;
+            }
         });
-    tabla += '</tr>';
+        tabla += '</tr>';
     });
 
     tabla += '</tbody></table>';
@@ -115,13 +130,6 @@ function renderCalendario() {
             }    
         };
     });
-
-}
-
-function mostrarRangoSemana(lunes) {
-    const domingo = new Date(lunes);
-    domingo.setDate(lunes.getDate() + 4);
-    rangoSemana.textContent = `${lunes.getDate()}/${lunes.getMonth()+1} - ${domingo.getDate()}/${domingo.getMonth()+1}`;
 }
 
 eliminarBtn.onclick = () => {
@@ -133,7 +141,6 @@ eliminarBtn.onclick = () => {
         renderCalendario();
     }
 };
-
 resetBtn.onclick = () => {
     if (confirm('¿Seguro que quieres borrar todos los turnos de la semana?')) {
         // Calcular fechas de la semana visible
@@ -181,4 +188,8 @@ navSiguiente.onclick = () => {
     renderCalendario();
 };
 
+
 renderCalendario();
+
+// Redibujar tabla al cambiar tamaño de pantalla
+window.addEventListener('resize', renderCalendario);

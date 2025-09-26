@@ -222,35 +222,3 @@ tr.separador td {
 #reset-semana:hover {
     background: var(--primary-green);
 }
-
-@media (max-width: 700px) {
-     #calendario {
-        padding: 8px;
-        max-width: 100vw;
-    }
-    table {
-        font-size: 0.85rem;
-        border-radius: 8px;
-    }
-    th, td {
-        padding: 6px 2px;
-        min-width: 48px;
-        font-size: 0.85rem;
-    }
-    th {
-        font-size: 0.9rem;
-    }
-    #form-turno {
-        max-width: 98vw;
-        padding: 12px;
-    }
-}
-
-@media (max-width: 500px) {
-    #calendario {
-        overflow-x: auto;
-    }
-    table {
-        min-width: 500px;
-    }
-}
