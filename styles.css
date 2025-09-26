@@ -1,0 +1,202 @@
+:root {
+  --primary-green: #a8d5ba;
+  --secondary-blue-light: #a3c6f1;
+  --secondary-gray: #4b4e5a;
+  --primary-beige: #f2e9e1;
+  --primary-beige-light: #e9e1da;
+  --primary-orange: #f8a488;
+  --secondary-purple: #d7c9e3;
+}
+
+body {
+  background: var(--primary-beige);
+  color: var(--secondary-gray);
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: var(--primary-orange);
+  text-align: center;
+  margin-top: 24px;
+  letter-spacing: 2px;
+}
+
+#calendario {
+  max-width: 900px;
+  margin: 32px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(76, 78, 90, 0.08);
+  padding: 24px;
+}
+
+table {
+  border-collapse: collapse; /* Cambiado de separate a collapse */
+  width: 100%;
+  background: var(--primary-green);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(76, 78, 90, 0.04);
+  border: 2px solid var(--secundary-gray); /* Borde exterior de la tabla */
+}
+
+th, td {
+  border: 2px solid var(--secondary-gray); /* Bordes más notorios */
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+th {
+  background: var(--primary-green);
+  color: var(--secondary-gray);
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--secondary-gray);
+}
+
+td {
+  background: #fff;
+  transition: background 0.2s;
+  cursor: pointer;
+  min-width: 90px;
+  height: 48px;
+}
+
+td.turno {
+  background: var(--primary-beige);
+  color: var(--secondary-gray);
+  font-weight: 500;
+  border: 2px solid transparent;
+}
+
+td.turno:hover {
+  background: var(--primary-green);
+  color: var(--secondary-gray);
+  border-color: var(--primary-orange);
+}
+
+td.no-disponible {
+  background: #e0e0e0;
+  cursor: not-allowed;
+  pointer-events: none;
+  border: 1px solid #d0d0d0;
+}
+
+/* Modal para el formulario de turno */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(76, 78, 90, 0.25);
+  justify-content: center;
+  align-items: center;
+}
+.modal.activo {
+  display: flex;
+}
+#form-turno {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 320px;
+  margin: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(76,78,90,0.15);
+  padding: 24px;
+  border: 1px solid var(--secondary-gray);
+}
+
+#form-turno input[type="date"],
+#form-turno input[type="text"] {
+  background: var(--primary-beige-light);
+  border: 1px solid var(--secondary-gray);
+  border-radius: 6px;
+  padding: 8px;
+  color: var(--secondary-gray);
+  font-size: 1rem;
+}
+
+#form-turno button[type="submit"] {
+  background: var(--primary-orange);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#form-turno button[type="submit"]:hover {
+  background: var(--primary-green);
+  color: var(--secondary-gray);
+}
+
+#form-turno button#cancelar {
+  background: transparent;
+  color: var(--primary-orange);
+  border: 1px solid var(--primary-orange);
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+#form-turno button#cancelar:hover {
+  background: var(--primary-orange);
+  color: #fff;
+}
+
+tr.separador td {
+  background: var(--primary-green);
+  color: var(--secondary-gray);
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.95rem;
+  height: 24px;
+  border: none;
+  letter-spacing: 2px;
+  padding: 4px 0;
+}
+
+@media (max-width: 700px) {
+  #calendario {
+    padding: 8px;
+    max-width: 100vw;
+  }
+  table {
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+  th, td {
+    padding: 6px 2px;
+    min-width: 48px;
+    font-size: 0.85rem;
+  }
+  th {
+    font-size: 0.9rem;
+  }
+  #form-turno {
+    max-width: 98vw;
+    padding: 12px;
+  }
+}
+
+/* Hace que la tabla sea desplazable horizontalmente en pantallas pequeñas */
+@media (max-width: 500px) {
+  #calendario {
+    overflow-x: auto;
+  }
+  table {
+    min-width: 500px;
+  }
+}
