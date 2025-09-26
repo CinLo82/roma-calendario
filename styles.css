@@ -52,12 +52,15 @@ h1 {
 
 #nav-semana {
     text-align: center;
-    margin-top: 24px;
+    margin: 16px 0;
 }
 
 #nav-semana span{
-    margin:0 16px; 
     font-weight:bold;
+}
+
+.nav-buttons {
+    margin: 16px 0;
 }
 
 #calendario {
@@ -263,19 +266,12 @@ tr.separador td {
     padding: 2px 0;
     min-width: 32px;
     font-size: 0.75rem;
-    height: 24px;
+
   }
   th {
     font-size: 0.8rem;
   }
-  th.horario, td.horario {
-    min-width: 38px;
-    max-width: 48px;
-    width: 38px;
-    font-size: 0.72rem;
-    padding: 2px 0;
-    word-break: break-all;
-  }
+ 
   #form-turno, .form-turno {
     max-width: 98vw;
     padding: 8px;
@@ -291,16 +287,10 @@ tr.separador td {
   th, td {
     min-width: 22px;
     font-size: 0.68rem;
-    height: 18px;
+    height: 24px;
     padding: 1px 0;
   }
-  th.horario, td.horario {
-    min-width: 20px;
-    max-width: 28px;
-    width: 20px;
-    font-size: 0.6rem;
-    padding: 1px 0;
-  }
+
   table {
     min-width: 220px;
   }
