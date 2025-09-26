@@ -8,6 +8,11 @@ const infoTurno = document.getElementById('info-turno');
 const eliminarBtn = document.getElementById('eliminar-turno');
 const resetBtn = document.getElementById('reset-semana');
 
+let offsetSemana = 0; // 0 = semana actual, -1 = anterior, +1 = siguiente
+const navAnterior = document.getElementById('semana-anterior');
+const navSiguiente = document.getElementById('semana-siguiente');
+const rangoSemana = document.getElementById('rango-semana');
+
 const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
 const horarios = [
     '08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00',
@@ -18,10 +23,10 @@ let turnos = JSON.parse(localStorage.getItem('turnos')) || {};
 let celdaSeleccionada = null;
 
 // Calcula el lunes de la semana actual
-function getLunesActual() {
+function getLunesActual(offset = 0) {
     const hoy = new Date();
     const dia = hoy.getDay();
-    const diff = hoy.getDate() - dia + (dia === 0 ? -6 : 1); // Ajuste si es domingo
+    const diff = hoy.getDate() - dia + (dia === 0 ? -6 : 1) + offset * 7;
     return new Date(hoy.setDate(diff));
 }
 
@@ -32,7 +37,8 @@ function formatoFecha(fecha) {
 
 function renderCalendario() {
     calendarioDiv.innerHTML = '';
-    const lunes = getLunesActual();
+    const lunes = getLunesActual(offsetSemana);
+    mostrarRangoSemana(lunes);
     let diasSemana = [];
     for (let i = 0; i < 5; i++) {
         let dia = new Date(lunes);
@@ -112,6 +118,12 @@ function renderCalendario() {
 
 }
 
+function mostrarRangoSemana(lunes) {
+    const domingo = new Date(lunes);
+    domingo.setDate(lunes.getDate() + 4);
+    rangoSemana.textContent = `${lunes.getDate()}/${lunes.getMonth()+1} - ${domingo.getDate()}/${domingo.getMonth()+1}`;
+}
+
 eliminarBtn.onclick = () => {
     if (celdaSeleccionada && turnos[celdaSeleccionada]) {
         delete turnos[celdaSeleccionada];
@@ -124,7 +136,21 @@ eliminarBtn.onclick = () => {
 
 resetBtn.onclick = () => {
     if (confirm('¿Seguro que quieres borrar todos los turnos de la semana?')) {
-        turnos = {};
+        // Calcular fechas de la semana visible
+        const lunes = getLunesActual(offsetSemana);
+        let diasSemana = [];
+        for (let i = 0; i < 5; i++) {
+            let dia = new Date(lunes);
+            dia.setDate(lunes.getDate() + i);
+            diasSemana.push(formatoFecha(dia));
+        }
+        // Eliminar solo los turnos de la semana visible
+        Object.keys(turnos).forEach(key => {
+            const [fecha] = key.split('_');
+            if (diasSemana.includes(fecha)) {
+                delete turnos[key];
+            }
+        });
         localStorage.setItem('turnos', JSON.stringify(turnos));
         renderCalendario();
     }
@@ -144,6 +170,15 @@ form.onsubmit = e => {
 cancelarBtn.onclick = () => {
     form.style.display = 'none';
     modal.classList.remove('activo'); // Oculta el modal al cancelar
+};
+
+navAnterior.onclick = () => {
+    offsetSemana--;
+    renderCalendario();
+};
+navSiguiente.onclick = () => {
+    offsetSemana++;
+    renderCalendario();
 };
 
 renderCalendario();
