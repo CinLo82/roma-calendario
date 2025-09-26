@@ -67,7 +67,6 @@ h1 {
 #calendario {
     max-width: 900px;
     margin: 6px auto 34px auto;
-    background: #fff;
     border-radius: 16px;
     box-shadow: 0 4px 24px rgba(76, 78, 90, 0.08);
     padding: 24px;
@@ -100,7 +99,7 @@ th {
 }
 
 td {
-    background: #fff;
+    background: var(--primary-beige);
     transition: background 0.2s;
     cursor: pointer;
     min-width: 90px;
