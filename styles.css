@@ -50,6 +50,16 @@ h1 {
     letter-spacing: 2px;
 }
 
+#nav-semana {
+    text-align: center;
+    margin-top: 24px;
+}
+
+#nav-semana span{
+    margin:0 16px; 
+    font-weight:bold;
+}
+
 #calendario {
     max-width: 900px;
     margin: 6px auto 34px auto;

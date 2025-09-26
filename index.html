@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles.css">
   <title>Calendario Interactivo</title>
 
@@ -11,9 +12,9 @@
             <img src="img/logo.png" alt="Logo Romi Roma" id="logo">
             <h1>Turnos</h1>
         </div>
-        <div id="nav-semana" style="text-align:center; margin-top:24px;">
-             <span id="rango-semana" style="margin:0 16px; font-weight:bold;"></span>
+        <div id="nav-semana">
             <button id="semana-anterior" class="nav-btn">&#8592; Anterior</button>
+            <span id="rango-semana"></span>
             <button id="semana-siguiente" class="nav-btn">Siguiente &#8594;</button>
         </div>
         <div id="calendario"></div>
@@ -22,7 +23,7 @@
             <form id="form-turno" style="display:none;">
                 <span id="info-turno" style="font-weight:bold; margin-bottom:8px;"></span>
                 <input type="date" id="fecha" required style="display:none;">
-                <input type="text" id="turno" placeholder="Turno" required>
+                <input type="text" id="turno" placeholder="Nombre" required>
                 <button type="submit">Guardar</button>
                 <button type="button" id="cancelar">Cancelar</button>
                 <button type="button" id="eliminar-turno">Eliminar</button>
