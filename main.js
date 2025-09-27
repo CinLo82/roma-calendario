@@ -32,11 +32,15 @@ function esPantallaChica() {
     return window.innerWidth <= 700;
 }
 
-// Calcula el lunes de la semana actual
+// Si hoy es sábado (6), mostrar la semana siguiente por defecto
+const hoy = new Date();
+if (hoy.getDay() === 6) {
+    offsetSemana = 1;
+}
+
 function getLunesActual(offset = 0) {
     const hoy = new Date();
     const dia = hoy.getDay();
-    // 0 (domingo) debe ser -6, 1 (lunes) debe ser 0, etc.
     const diff = hoy.getDate() - dia + (dia === 0 ? -6 : 1) + offset * 7;
     const lunes = new Date(hoy);
     lunes.setDate(diff);
