@@ -8,21 +8,44 @@
   --secondary-purple: #d7c9e3;
 }
 
+/* --- Layout general --- */
 body {
-    background: var(--primary-beige);
-    color: var(--secondary-gray);
-    font-family: 'Segoe UI', 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
+  background: var(--primary-beige);
+  color: var(--secondary-gray);
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
+/* --- Cabecera y título --- */
 .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+#logo {
+  width: 80px;
+}
+h1 {
+  color: var(--primary-orange);
+  text-align: center;
+  margin-top: 24px;
+  letter-spacing: 2px;
+  font-size: 2.6rem;
 }
 
+/* --- Navegación de semana --- */
+#nav-semana {
+  text-align: center;
+  margin: 16px 0;
+}
+#nav-semana span {
+  font-weight: bold;
+}
+.nav-buttons {
+  margin: 16px 0;
+}
 .nav-btn {
   background: var(--primary-orange);
   color: var(--secondary-gray);
@@ -39,171 +62,199 @@ body {
   background: var(--primary-green);
 }
 
-#logo {
-    width: 80px;
-}
-
-h1 {
-    color: var(--primary-orange);
-    text-align: center;
-    margin-top: 24px;
-    letter-spacing: 2px;
-    font-size: 2.6rem; 
-}
-
-#nav-semana {
-    text-align: center;
-    margin: 16px 0;
-}
-
-#nav-semana span{
-    font-weight:bold;
-}
-
-.nav-buttons {
-    margin: 16px 0;
-}
-
+/* --- Calendario y tabla --- */
 #calendario {
     max-width: 900px;
     margin: 6px auto 34px auto;
     border-radius: 16px;
     padding: 0 8px;
 }
-
 table {
-    border-collapse: collapse; 
+    border-collapse: collapse;
     width: 100%;
     background: var(--primary-green);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(76, 78, 90, 0.04);
-    border: 2px solid var(--secundary-gray); /* Borde exterior de la tabla */
+    border: 2px solid var(--primary-green);
 }
-
 th, td {
-    border: 2px solid var(--secondary-gray); /* Bordes más notorios */
-    padding: 12px 8px;
+    border: 2px solid var(--secondary-gray);
+    padding: 12px;
     text-align: center;
     font-size: 1rem;
     box-sizing: border-box;
 }
-
 th {
     background: var(--primary-green);
     color: var(--secondary-gray);
     font-weight: bold;
     letter-spacing: 1px;
-    border-bottom: 2px solid var(--secondary-gray);
+    border-bottom: 2px solid #e0e0e0;
 }
-
 td {
     background: var(--primary-beige);
     transition: background 0.2s;
     cursor: pointer;
+    color : var(--secondary-gray);
+    font-weight: 500;
     min-width: 90px;
     height: 48px;
 }
 
+/* --- Celdas especiales --- */
 td.turno {
-    background: var(--primary-beige);
-    color: var(--secondary-gray);
-    font-weight: 500;
-    border: 2px solid #d0d0d0;
+  background: var(--primary-beige);
+  color: var(--secondary-gray);
+  font-weight: 500;
+  border: 2px solid #d0d0d0;
 }
-
 td.turno:hover {
-    background: var(--primary-green);
-    color: var(--secondary-gray);
-    border-color: var(--primary-orange);
+  background: var(--primary-green);
+  color: var(--secondary-gray);
+  border-color: var(--primary-orange);
 }
-
 td.no-disponible {
-    background: #e0e0e0;
-    cursor: not-allowed;
-    pointer-events: none;
-    border: 1px solid #d0d0d0;
+  background: #e0e0e0;
+  cursor: not-allowed;
+  pointer-events: none;
+  border: 1px solid #d0d0d0;
 }
-
 td.turno.ocupado.masaje {
-    background: #a3c6f1; /* Azul claro */
-    color: #fff;
+  background: #a3c6f1;
+  color: #fff;
+  font-weight: bold;
 }
 td.turno.ocupado.reiki {
-    background: #d7c9e3; /* Violeta claro */
-    color: #4b4e5a;
+  background: #d7c9e3;
+  color: #4b4e5a;
+  font-weight: bold;
+}
+td.ocupado {
+  background: var(--secondary-purple);
+  color: var(--secondary-gray);
+  font-weight: bold;
+  border-color: var(--primary-orange);
+}
+td.ocupado:hover {
+  background: var(--secondary-purple);
+  cursor: not-allowed;
+}
+tr.separador td {
+  background: var(--primary-green);
+  color: var(--secondary-gray);
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.95rem;
+  height: 24px;
+  border: none;
+  letter-spacing: 2px;
+  padding: 4px 0;
 }
 
-/* Modal para el formulario de turno */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0; top: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(76, 78, 90, 0.25);
-    justify-content: center;
-    align-items: center;
+/* --- Dropdown personalizado --- */
+.dropdown {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
 }
-.modal.activo {
-    display: flex;
+.dropdown-btn {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid var(--primary-orange);
+  background: var(--primary-beige);
+  cursor: pointer;
+  border-radius: 6px;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: var(--primary-beige);
+  border: 2px solid var(--primary-orange);
+  border-radius: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0 0;
+  z-index: 10;
+}
+.dropdown-menu li {
+  padding: 10px;
+  cursor: pointer;
+}
+.dropdown-menu li:hover {
+  background: #ffe0d0;
+}
+
+/* --- Formulario y modal --- */
+#modal-turno {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(75, 78, 90, 0.4);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+#modal-turno.activo {
+  display: flex;
 }
 #form-turno {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    max-width: 320px;
+    width: 100%;
+    max-width: 360px;
     margin: 0;
-    background: #fff;
+    background: var(--primary-beige);
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(76,78,90,0.15);
     padding: 24px;
-    border: 1px solid var(--secondary-gray);
+    border: 2px solid var(--primary-beige-light);
+    animation: aparecer 0.25s ease-out;
+    text-align: center;
 }
-
 #form-turno input[type="date"],
 #form-turno input[type="text"] {
-    background: var(--primary-beige-light);
-    border: 1px solid var(--secondary-gray);
-    border-radius: 6px;
-    padding: 8px;
-    color: var(--secondary-gray);
-    font-size: 1rem;
-}
-
-#form-turno button[type="submit"] {
-    background: var(--primary-orange);
-    color: #fff;
-    border: none;
+    background: var(--primary-beige);
+    border: 2px solid var(--primary-orange);
     border-radius: 6px;
     padding: 10px;
+    color: var(--secondary-gray);
+    font-weight: bold;
     font-size: 1rem;
+    align-items: center;
+    text-align: center;
+}
+#form-turno input#turno::placeholder {
+    color: var(--secondary-gray);
     font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
+    opacity: 1;
+    letter-spacing: 1px;
 }
-
-#form-turno button[type="submit"]:hover {
-    background: var(--primary-green);
+#form-turno span{
+    font-size: 1.1rem;
+    font-weight: 600;
     color: var(--secondary-gray);
+    text-align: center;
 }
-
-#form-turno button#cancelar {
-    background: transparent;
-    color: var(--primary-orange);
-    border: 1px solid var(--primary-orange);
+#form-turno span#info-turno {
+    color: var(--secondary-gray);
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-align: center;
+    background: var(--primary-beige-light);
     border-radius: 6px;
-    padding: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    padding: 8px 0;
+    margin-bottom: 8px;
+    display: block;
 }
-
-#form-turno button#cancelar:hover {
-    background: var(--primary-orange);
-    color: #fff;
-}
-
 #form-turno label[for="tipo-turno"] {
     margin-top: 8px;
     margin-bottom: 2px;
@@ -212,7 +263,6 @@ td.turno.ocupado.reiki {
     font-size: 1rem;
     letter-spacing: 1px;
 }
-
 #form-turno select#tipo-turno {
     background: var(--primary-beige-light);
     border: 1.5px solid var(--secondary-gray);
@@ -224,56 +274,94 @@ td.turno.ocupado.reiki {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-
     background-repeat: no-repeat;
     background-position: right 8px center;
     background-size: 16px 12px;
 }
-
 #form-turno select#tipo-turno:focus {
-    border-color: var(--primary-orange);
-    outline: none;
-    background: #fffbe7;
+  border-color: var(--primary-orange);
+  outline: none;
+  background: var(--primary-beige);
 }
 
-tr.separador td {
-    background: var(--primary-green);
-    color: var(--secondary-gray);
-    font-weight: bold;
-    text-align: center;
-    font-size: 0.95rem;
-    height: 24px;
-    border: none;
-    letter-spacing: 2px;
-    padding: 4px 0;
+/* --- Botones --- */
+#form-turno button[type="submit"] {
+  background: var(--primary-orange);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
 }
-
+#form-turno button[type="submit"]:hover {
+  background: var(--primary-green);
+  color: var(--secondary-gray);
+}
+#form-turno button#cancelar {
+  background: transparent;
+  color: var(--secondary-gray);
+  border: 2px solid var(--primary-orange);
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+#form-turno button#cancelar:hover {
+  background: var(--primary-orange);
+  color: #fff;
+}
 #eliminar-turno {
-    display: none; 
-    color: #fff; 
-    background: var(--primary-orange); 
-    border: none; 
-    border-radius: 6px; 
-    padding: 10px; 
-    font-size: 1rem; 
-    cursor: pointer;
+  display: none;
+  color: #fff;
+  background: #e25c5c;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 1rem;
+  cursor: pointer;
 }
-
+#eliminar-turno:hover {
+  background: #d44444;
+}
 #reset-semana {
-    margin: 16px  auto; 
-    display: block; 
-    background: var(--primary-orange); 
-    color: #fff; 
-    font-weight: bold;
-    border: none; 
-    border-radius: 6px; 
-    padding: 10px 18px; 
-    font-size: 1rem; 
-    cursor: pointer;
+  margin: 16px auto;
+  display: block;
+  background: var(--primary-orange);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+#reset-semana:hover {
+  background: var(--primary-green);
 }
 
-#reset-semana:hover {
-    background: var(--primary-green);
+/* --- Mejor contraste de botones en modal --- */
+#form-turno button[type="submit"],
+#form-turno button#cancelar,
+#eliminar-turno {
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+/* --- Animaciones --- */
+@keyframes aparecer {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* --- Media queries para pantallas pequeñas --- */
@@ -306,35 +394,47 @@ tr.separador td {
     padding: 2px 0;
     min-width: 32px;
     font-size: 0.75rem;
-
   }
   th {
     font-size: 0.8rem;
   }
- 
   #form-turno, .form-turno {
-    max-width: 98vw;
     padding: 8px;
   }
+
   #reset-semana, .reset-semana {
     font-size: 0.9rem;
     padding: 8px 10px;
   }
+  .modal {
+    padding: 8px;
+    align-items: flex-start;
+    overflow-y: auto;
+    width: 70%;
+  }
 }
 
 /* Para pantallas muy pequeñas */
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   th, td {
     min-width: 22px;
     font-size: 0.68rem;
     height: 32px;
     padding: 1px 0;
   }
-
   table {
     min-width: 220px;
   }
   h1 {
     font-size: 1rem;
+  }
+    #modal-turno {
+    width: 70% !important;
+    left: 15%;
+    right: 15%;
+    padding: 8px;
+  }
+  #form-turno {
+    max-width: 100%;
   }
 }

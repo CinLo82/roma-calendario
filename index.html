@@ -22,16 +22,19 @@
         </div>
         <div id="calendario"></div>
         <button id="reset-semana">Borrar todos los turnos de la semana</button>
-        <div id="modal-turno" class="modal">
+       <div id="modal-turno" class="modal">
             <form id="form-turno" style="display:none;">
-                <span id="info-turno" style="font-weight:bold; margin-bottom:8px;"></span>
+                <span id="info-turno"></span>
                 <input type="date" id="fecha" required style="display:none;">
+                <div class="dropdown" id="dropdown-tipo">
+                <button type="button" class="dropdown-btn" id="dropdown-btn-tipo">Seleccionar tipo</button>
+                <ul class="dropdown-menu" id="dropdown-menu-tipo">
+                    <li data-value="masaje">Masaje</li>
+                    <li data-value="reiki">Reiki</li>
+                </ul>
+                </div>
+                <input type="hidden" id="tipo-turno" required>
                 <input type="text" id="turno" placeholder="Nombre" required>
-                <label for="tipo-turno">Tipo:</label>
-                <select id="tipo-turno">
-                    <option value="masaje">Masaje</option>
-                    <option value="reiki">Reiki</option>
-                </select>
                 <button type="submit">Guardar</button>
                 <button type="button" id="cancelar">Cancelar</button>
                 <button type="button" id="eliminar-turno">Eliminar</button>

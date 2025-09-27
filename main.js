@@ -11,7 +11,9 @@ const navAnterior = document.getElementById('semana-anterior');
 const navSiguiente = document.getElementById('semana-siguiente');
 const rangoSemana = document.getElementById('rango-semana');
 
-
+const btn = document.querySelector(".dropdown-btn");
+const menu = document.querySelector(".dropdown-menu");
+const options = document.querySelectorAll(".dropdown-menu li");
 
 let offsetSemana = 0; 
 
@@ -130,33 +132,56 @@ function renderCalendario() {
         td.onclick = () => {
             celdaSeleccionada = td.dataset.key;
             const [fecha, horario] = celdaSeleccionada.split('_');
-            const fechaObj = new Date(fecha);
+            const fechaObj = new Date(fecha + "T12:00:00"); // <-- fuerza zona local
+            const diasCortos = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+            const diaSemana = diasCortos[fechaObj.getDay()];
             const diaNumero = fechaObj.getDate();
-            infoTurno.textContent = `${diaNumero} - ${horario}`;
+            infoTurno.textContent = `${diaSemana} ${diaNumero} - ${horario}`;
             fechaInput.value = fecha;
+            fechaInput.disabled = true;
+
+            // --- Sincroniza el dropdown con el valor guardado ---
             if (turnos[celdaSeleccionada]) {
                 const partes = turnos[celdaSeleccionada].split('|');
                 if (partes.length === 2) {
-                    document.getElementById('tipo-turno').value = partes[0];
+                    setDropdownTipo(partes[0]);
                     turnoInput.value = partes[1];
                 } else {
-                    document.getElementById('tipo-turno').value = '';
+                    setDropdownTipo('');
                     turnoInput.value = turnos[celdaSeleccionada];
                 }
             } else {
-                document.getElementById('tipo-turno').value = '';
+                setDropdownTipo('');
                 turnoInput.value = '';
             }
-            fechaInput.disabled = true;
-            modal.classList.add('activo'); // Mostrar modal
+
+            modal.classList.add('activo');
             form.style.display = 'flex';
             if (turnos[celdaSeleccionada]) {
                 eliminarBtn.style.display = 'block';
             } else {
                 eliminarBtn.style.display = 'none';
-            }    
+            }
         };
     });
+}
+
+function setDropdownTipo(valor) {
+    const dropdownBtn = document.getElementById('dropdown-btn-tipo');
+    const dropdownMenu = document.getElementById('dropdown-menu-tipo');
+    const tipoTurnoInput = document.getElementById('tipo-turno');
+    if (!dropdownBtn || !dropdownMenu || !tipoTurnoInput) return; //
+    const li = dropdownMenu.querySelector(`li[data-value="${valor}"]`);
+    if (li) {
+        dropdownBtn.textContent = li.textContent;
+        tipoTurnoInput.value = valor;
+        dropdownMenu.querySelectorAll('li').forEach(item => item.classList.remove('selected'));
+        li.classList.add('selected');
+    } else {
+        dropdownBtn.textContent = 'Seleccionar tipo';
+        tipoTurnoInput.value = '';
+        dropdownMenu.querySelectorAll('li').forEach(item => item.classList.remove('selected'));
+    }
 }
 
 eliminarBtn.onclick = () => {
@@ -168,6 +193,7 @@ eliminarBtn.onclick = () => {
         renderCalendario();
     }
 };
+
 resetBtn.onclick = () => {
     if (confirm('¿Seguro que quieres borrar todos los turnos de la semana?')) {
         // Calcular fechas de la semana visible
@@ -197,7 +223,7 @@ form.onsubmit = e => {
         turnos[celdaSeleccionada] = tipo + '|' + turnoInput.value;
         localStorage.setItem('turnos', JSON.stringify(turnos));
         form.style.display = 'none';
-        modal.classList.remove('activo'); // Oculta el modal al guardar
+        modal.classList.remove('activo');
         renderCalendario();
     }
 };
@@ -219,5 +245,19 @@ navSiguiente.onclick = () => {
 
 renderCalendario();
 
-// Redibujar tabla al cambiar tamaño de pantalla
+
 window.addEventListener('resize', renderCalendario);
+
+
+btn.addEventListener("click", () => {
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+});
+
+options.forEach(option => {
+    option.addEventListener("click", () => {
+        btn.textContent = option.textContent;
+        btn.dataset.value = option.dataset.value;
+        document.getElementById('tipo-turno').value = option.dataset.value; // <-- importante
+        menu.style.display = "none";
+    });
+});
