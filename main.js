@@ -32,9 +32,8 @@ function esPantallaChica() {
     return window.innerWidth <= 700;
 }
 
-// Si hoy es sábado (6), mostrar la semana siguiente por defecto
 const hoy = new Date();
-if (hoy.getDay() === 6) {
+if (hoy.getDay() === 6 || hoy.getDay() === 0) {
     offsetSemana = 1;
 }
 
